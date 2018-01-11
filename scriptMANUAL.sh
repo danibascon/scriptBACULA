@@ -45,5 +45,7 @@ for (( i=1 ; i < 5 ; i++ )) ;do
 	fi
 
 	a=$(psql -h 172.22.200.110 -U $backup_user -d db_backup -c "insert into backups values('$backup_user', '$backup_host','$backup_label','$backup_description', '$backup_status', '$backup_date', '$backup_mode' );")
+	a=$(echo" -h 172.22.200.110 -U $backup_user -d db_backup -c "insert into backups values('$backup_user', '$backup_host','$backup_label','$backup_description', '$backup_status', '$backup_date', '$backup_mode' );"")
+
 	echo $a
 done
