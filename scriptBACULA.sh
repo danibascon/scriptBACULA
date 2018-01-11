@@ -46,8 +46,8 @@ for (( i=1 ; i < 5 ; i++ )) ; do
     consulta=$(mariadb -u root -e "select Level, JobStatus, RealEndTime from bacula.Job where RealEndTime in (select max(RealEndTime) from bacula.Job group by Name) and Name='$host' group by Name;")
        
     backup_label=$( echo $consulta | cut -d " " -f 4 )
-    backup_status=$( echo $datos | cut -d " " -f 5 )
-    backup_date=$( echo $datos | cut -d " " -f 6-7 )
+    backup_status=$( echo $consulta | cut -d " " -f 5 )
+    backup_date=$( echo $consulta | cut -d " " -f 6-7 )
 
     echo $backup_label
     echo $backup_status
@@ -69,16 +69,6 @@ mickey_estado=$( echo $mickey1 | cut -d " " -f 6)
 mickey_tipo=$( echo $mickey1 | cut -d " " -f 5)
 #Se filta la informacion de la consulta realizada para obtener el tamano de dicha copia
 mickey_tamano=$( echo $mickey1 | cut -d " " -f 9)
-
-
-
-
-
-
-
-
-
-
 
 
 
