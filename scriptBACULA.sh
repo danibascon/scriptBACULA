@@ -1,25 +1,7 @@
 #!/bin/sh
 
-
-#coconut	172.22.200.127	panel grafico
-#coconut	172.22.200.110	postgres
-
-
 backup_user='daniel.bascon'
 backup_mode='Automatica'
-backup_node_dir="172.22.200.110"
-
-
-#backup_user  usuario
-#backup_host   ip               
-#backup_label  tipo de copia                     
-#backup_description   comentario   
-#backup_status codigo (200 o 400)
-#backup_date    fecha   
-#backup_mode    manual o automatico
-
-
-
 
 for (( i=1 ; i < 5 ; i++ )) ;do
 	#Definicion de las maquinas con su respectiva ip
@@ -42,8 +24,7 @@ for (( i=1 ; i < 5 ; i++ )) ;do
 					;;
 	esac
 
-    consulta=$(mariadb -u root -e "select Level, JobStatus, RealEndTime from bacula.Job where RealEndTime in (select max(RealEndTime) from bacula.Job group by Name) and Name='$host' group by Name;")
-       
+    consulta=$(mariadb -u root -e "select Level, JobStatus, RealEndTime from bacula.Job where RealEndTime in (select max(RealEndTime) from bacula.Job group by Name) and Name='$host' group by Name;")  
     label=$( echo $consulta | cut -d " " -f 4 )
     status=$( echo $consulta | cut -d " " -f 5 )
     backup_date=$( echo $consulta | cut -d " " -f 6-7 )
@@ -54,7 +35,6 @@ for (( i=1 ; i < 5 ; i++ )) ;do
     else
     	backup_label="Incremental $host"
     	backup_description="Incremental"
-
     fi
 
 	if [[ $status == 'T' ]]; then
@@ -64,46 +44,5 @@ for (( i=1 ; i < 5 ; i++ )) ;do
     	echo "No se ha realizado la copia la seguridad bien" |  sendmail  subject danibascon1991@gmail.com
 	fi
 
-
-
-
-    echo $backup_user
-    echo $backup_host
-    echo $backup_label
-    echo $backup_description
-    echo $backup_status
-    echo $backup_date
-    echo $backup_mode
-    echo ''
-
-
-
-
-done 
-
-
-
-#mariadb -h 172.22.200.182 -u root -p'bacula' -e
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#        mariadb -u root -e "select Level, JobStatus, RealEndTime from bacula.Job where RealEndTime in (select max(RealEndTime) from bacula.Job group by Name) and Name='mickey' group by Name;"
-
-
-
-
-
-
-
-#psql -h 172.22.200.110 -U daniel.bascon -d db_backup -c "insert into backups (backup_user, backup_host, backup_label, backup_description, backup_status,backup_date, backup_mode) values('daniel.bascon',)"
+	psql -h 172.22.200.110 -U $backup_user -d db_backup -c "insert into backups values('$backup_user', '$backup_host','$backup_label','$backup_description', '$backup_status', '$backup_date', '$backup_mode' );"
+done
