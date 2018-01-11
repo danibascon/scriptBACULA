@@ -6,7 +6,6 @@
 
 
 #backup_user='daniel.bascon'
-backup_description='Incremental'
 backup_mode='Automatica'
 backup_node_dir="172.22.200.110"
 
@@ -51,8 +50,11 @@ for (( i=1 ; i < 5 ; i++ )) ;do
 
 	if [[ $label == 'F' ]]; then
     	backup_label="Completa $host"
+    	backup_description="Completa"
     else
     	backup_label="Incremental $host"
+    	backup_description="Incremental"
+
     fi
 
 	if [[ $status == 'T' ]]; then
