@@ -69,6 +69,7 @@ for (( i=1 ; i < 5 ; i++ )) ;do
     echo $backup_description
     echo $backup_status
     echo $backup_date
+    echo ''
 
 
 
