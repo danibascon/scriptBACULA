@@ -44,17 +44,46 @@ for (( i=1 ; i < 5 ; i++ )) ; do
 	esac
 
     consulta=$(mariadb -u root -e "select Level, JobStatus, RealEndTime from bacula.Job where RealEndTime in (select max(RealEndTime) from bacula.Job group by Name) and Name='$host' group by Name;")
-    echo $consulta
        
-    backup_label=$( echo $consulta | cut -d " " -f 5 )
-    backup_Level=$( echo $consulta | cut -d " " -f 6 )
-    backup_JobStatus=$( echo $datos | cut -d " " -f 7 )
-    backup_date=$( echo $datos | cut -d " " -f 8 )
+    backup_label=$( echo $consulta | cut -d " " -f 4 )
+    backup_status=$( echo $datos | cut -d " " -f 5 )
+    backup_date=$( echo $datos | cut -d " " -f 6-7 )
 
     echo $backup_label
-    echo $backup_Level
-    echo $backup_JobStatus
+    echo $backup_status
     echo $backup_date
+
+
+
+#Se consulta a la base de datos de bacula  y se obtiene los parametros necesarios para el registo de la copia y todo ello se guarda en una variable
+mickey1=$( mariadb -u root -p'root' -e 'select Level, JobStatus, RealEndTime, (JobBytes/1024)/1024 from bacula.Job where RealEndTime in (select max(RealEndTime) from bacula.Job group by Name) and type="B" and Name="mickey" group by Name;')
+#Se filtra la fecha de esa consulta realizada para comparar posteriormente
+mickey2=$( echo $mickey1 | cut -d " " -f 7 | cut -d "-" -f 3)
+#Se obtiene la fecha actual del sistema, filtrando el dia
+mickey3=$( date +%d )
+#Se filtra la fecha y hora para registrar dicha actividad
+mickey_fecha=$( echo $mickey1 | cut -d " " -f 7-8)
+#Se filtra la informacion de la consulta realizada para obtener el estado de la copia si ha sido correcto o no
+mickey_estado=$( echo $mickey1 | cut -d " " -f 6)
+#Se filta la informacion de la consulta realizada para obtener que tipo de copia se ha realizado si es completa, diferencial o incremental
+mickey_tipo=$( echo $mickey1 | cut -d " " -f 5)
+#Se filta la informacion de la consulta realizada para obtener el tamano de dicha copia
+mickey_tamano=$( echo $mickey1 | cut -d " " -f 9)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
