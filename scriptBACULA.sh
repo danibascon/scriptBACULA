@@ -49,13 +49,13 @@ for (( i=1 ; i < 5 ; i++ )) ;do
     backup_status=$( echo $consulta | cut -d " " -f 5 )
     backup_date=$( echo $consulta | cut -d " " -f 6-7 )
 
-    if [ '$backup_label' == 'F' ] ;then
+    if [ '$backup_label' = 'F' ] ;then
     	backup_label = 'Completa $host'
     else
     	backup_label = 'Incremental $host'
     fi
 
-    if [ '$backup_status' == 'T' ] ;then
+    if [ '$backup_status' = 'T' ] ;then
     	backup_status = '200'
     else
     	backup_status = '400'
