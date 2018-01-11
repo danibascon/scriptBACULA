@@ -5,7 +5,7 @@
 #coconut	172.22.200.110	postgres
 
 
-#backup_user='daniel.bascon'
+backup_user='daniel.bascon'
 backup_mode='Automatica'
 backup_node_dir="172.22.200.110"
 
@@ -67,7 +67,7 @@ for (( i=1 ; i < 5 ; i++ )) ;do
 
 
 
-    echo 'daniel.bascon'
+    echo $backup_user
     echo $backup_host
     echo $backup_label
     echo $backup_description
