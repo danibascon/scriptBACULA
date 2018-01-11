@@ -46,6 +46,20 @@ for (( i=1 ; i < 5 ; i++ )) ; do
     consulta=$(mariadb -u root -e "select Level, JobStatus, RealEndTime from bacula.Job where RealEndTime in (select max(RealEndTime) from bacula.Job group by Name) and Name='$host' group by Name;")
     echo $consulta
        
+    backup_label=$( echo $consulta | cut -d " " -f 5 )
+    backup_Level=$( echo $consulta | cut -d " " -f 6 )
+    backup_JobStatus=$( echo $datos | cut -d " " -f 7 )
+    backup_date=$( echo $datos | cut -d " " -f 8 )
+
+    echo $backup_label
+    echo $backup_Level
+    echo $backup_JobStatus
+    echo $backup_date
+
+
+
+
+
 done 
 
 
