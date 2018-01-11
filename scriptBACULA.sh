@@ -54,7 +54,7 @@ for (( i=1 ; i < 5 ; i++ )) ;do
     	backup_label = 'Incremental $host'
     fi
 
-    if [ backup_status == '' ] ;do
+    if [ backup_status == 'T' ] ;then
     	backup_status = '200'
     else
     	backup_status = '400'
