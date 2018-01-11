@@ -50,9 +50,9 @@ for (( i=1 ; i < 5 ; i++ )) ;do
     backup_date=$( echo $consulta | cut -d " " -f 6-7 )
 
 	if [[ $label == 'F' ]]; then
-    	backup_label = 'Completa $host'
+    	backup_label='Completa $host'
     else
-    	backup_label = 'Incremental $host'
+    	backup_label='Incremental $host'
     fi
 
 	if [[ $status == 'T' ]]; then
