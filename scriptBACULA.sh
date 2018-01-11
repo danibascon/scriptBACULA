@@ -65,7 +65,7 @@ done
 
 
 
-#mariadb -u root -e "select name, Level, JobStatus, RealEndTime from bacula.Job where RealEndTime in (select max(RealEndTime) from bacula.Job group by Name) and Name='mickey' group by Name;"
+#        mariadb -u root -e "select Level, JobStatus, RealEndTime from bacula.Job where RealEndTime in (select max(RealEndTime) from bacula.Job group by Name) and Name='mickey' group by Name;"
 
 
 
