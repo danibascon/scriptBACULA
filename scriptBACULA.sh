@@ -45,22 +45,24 @@ for (( i=1 ; i < 5 ; i++ )) ;do
 
     consulta=$(mariadb -u root -e "select Level, JobStatus, RealEndTime from bacula.Job where RealEndTime in (select max(RealEndTime) from bacula.Job group by Name) and Name='$host' group by Name;")
        
-    backup_label=$( echo $consulta | cut -d " " -f 4 )
-    backup_status=$( echo $consulta | cut -d " " -f 5 )
+    label=$( echo $consulta | cut -d " " -f 4 )
+    status=$( echo $consulta | cut -d " " -f 5 )
     backup_date=$( echo $consulta | cut -d " " -f 6-7 )
 
-    if [[ '$backup_label' == 'F' ]] ;then
+	if [[ $label == 'F' ]]; then
     	backup_label = 'Completa $host'
     else
     	backup_label = 'Incremental $host'
     fi
 
-    if [[ '$backup_status' == 'T' ]] ;then
-    	backup_status = '200'
-    else
-    	backup_status = '400'
+	if [[ $status == 'T' ]]; then
+	        backup_status='200'
+	else
+	        backup_status='400'
     	echo "No se ha realizado la copia la seguridad bien" |  sendmail  subject danibascon1991@gmail.com
-    fi
+	fi
+
+
 
 
     echo 'daniel.bascon'
