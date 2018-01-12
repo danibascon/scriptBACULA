@@ -26,7 +26,8 @@ for (( i=1 ; i < 4 ; i++ )) ;do
 #En el caso de que el tipo de copia sea F será completa, en caso contrario, sera incremental
 	if [[ $label == 'F' ]] ;then
     	backup_label="Completa $host"
-    	backup_description="Completa"
+	echo "Di cual ha sido el error de $host"
+    	read backup_description
     else
     	backup_label="Incremental $host"
     	backup_description="Incremental"
